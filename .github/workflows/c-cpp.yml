@@ -16,8 +16,8 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
     - name: Build
-      run: mkdir build
-    - name: cmake
-      run: cd build && cmake ..
-    - name: make
-      run: make -j$(nproc)
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make -j$(nproc)
