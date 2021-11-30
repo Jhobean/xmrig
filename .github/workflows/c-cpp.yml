@@ -1,0 +1,23 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+    - name: Build
+      run: mkdir xmrig/build && cd xmrig/build
+    - name: cmake
+      run: cmake ..
+    - name: make
+      run: make -j$(nproc)
