@@ -13,15 +13,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Install dependencies
       run: sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+      
     - name: Build
       run: |
         mkdir build
         cd build
         cmake ..
         make -j$(nproc)
+
     - uses: actions/upload-artifact@v2
       with:
         name: xmrig-ubuntu
-        path: ./build
+        path: ./build/xmrig
