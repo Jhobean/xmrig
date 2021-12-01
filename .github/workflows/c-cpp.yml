@@ -15,15 +15,15 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Install dependencies
-      run: sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+      run: sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev automake libtool autoconf
       
     - name: Build
       run: |
         mkdir build
-        cd build
-        cmake ..
+        cd scripts && ./build_deps.sh
+        cd ../build && cmake ..
         make -j$(nproc)
-
+        
     - uses: actions/upload-artifact@v2
       with:
         name: xmrig-ubuntu
