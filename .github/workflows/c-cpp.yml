@@ -43,14 +43,13 @@ jobs:
         ./build_deps.sh && cd ../build
         cmake .. -DXMRIG_DEPS=scripts/deps
         make -j$(nproc)
-        cd ..
         tar cfz ubuntu_build.tar.gz xmrig
         
     - name: Upload Ubuntu build artifacts
       uses: actions/upload-artifact@v1
       with:
         name: ubuntu_build
-        path: ubuntu_build.tar.gz
+        path: ./build/ubuntu_build.tar.gz
         
     - uses: actions/upload-artifact@v2
       with:
