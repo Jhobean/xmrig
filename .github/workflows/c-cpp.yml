@@ -7,10 +7,28 @@ on:
     branches: [ master ]
 
 jobs:
+  build_win:
+    name: Build Windows artifacts
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Checkout deps
+        run:  git clone https://github.com/xmrig/xmrig-deps.git
+      - name: Build project on Windows
+        run: |
+          cmake . -G "MinGW Makefiles" -DXMRIG_DEPS=xmrig-deps\gcc\x64
+          make -j2
+          copy src\config.json .
+          copy bin\WinRing0\WinRing0x64.sys .
+          7z a -tzip -mx windows_build.zip xmrig.exe config.json WinRing0x64.sys
+      - name: Upload Windows build artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: windows_build
+          path: windows_build.zip
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     
