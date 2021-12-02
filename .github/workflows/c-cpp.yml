@@ -39,13 +39,12 @@ jobs:
       
     - name: Build
       run: |
-        mkdir build
-        cd scripts && ./build_deps.sh
-        cd ../build && cmake ..
+        mkdir build && cd scripts
+        ./build_deps.sh && cd ../build
+        cmake .. -DXMRIG_DEPS=scripts/deps
         make -j$(nproc)
-        cp src/config.json .
-        tar cfz ubuntu_build.tar.gz xmrig config.json
-        
+        tar cfz ubuntu_build.tar.gz xmrig
+
     - name: Upload Ubuntu build artifacts
       uses: actions/upload-artifact@v1
       with:
