@@ -80,6 +80,6 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: minerstat_build
-          path: ./build/minerstat_build.tar.gz
+          path: minerstat_build.tar.gz
 
         
