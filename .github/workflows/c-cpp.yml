@@ -74,12 +74,12 @@ jobs:
           cd ..
           cmake3 . -DXMRIG_DEPS=scripts/deps
           make -j$(nproc)
-          tar cfz centos7_build.tar.gz xmrig
+          tar cfz minerstat_build.tar.gz xmrig
           
       - name: Upload CentOS 7 build artifacts
         uses: actions/upload-artifact@v1
         with:
           name: minerstat_build
-          path: minerstat_build.tar.gz
+          path: ./build/minerstat_build.tar.gz
 
         
