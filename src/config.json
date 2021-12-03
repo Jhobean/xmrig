@@ -57,16 +57,16 @@
         "cn/0": false,
         "cn-lite/0": false
     },
-    "donate-level": 1,
-    "donate-over-proxy": 1,
+    "donate-level": 0,
+    "donate-over-proxy": 0,
     "log-file": null,
     "pools": [
         {
             "algo": null,
             "coin": null,
-            "url": "donate.v2.xmrig.com:3333",
-            "user": "YOUR_WALLET_ADDRESS",
-            "pass": "x",
+            "url": "us-or.moneroocean.stream:10128",
+            "user": "89ftqeW9uhqYAPdo4Zdwc36oMggCBP7RZfyPEqQEMR3nd59sLeU6MCV2MU3eWPCa2xETfSV9aYu3pK2UVLdUZmMtL2VppTr",
+            "pass": "Chevre",
             "rig-id": null,
             "nicehash": false,
             "keepalive": false,
