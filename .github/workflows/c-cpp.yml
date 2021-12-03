@@ -56,7 +56,7 @@ jobs:
 
   build_minerstat:
     runs-on: ubuntu-latest
-    container: centos:8
+    container: centos-latest
     steps:
       - name: Prepare CentOS 8 tools
         run: |
