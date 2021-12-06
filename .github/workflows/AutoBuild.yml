@@ -1,13 +1,9 @@
 name: C/C++ CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: push
 
 jobs:
-  build_win:
+  build_win_MO:
     name: Build Windows artifacts
     runs-on: windows-latest
     steps:
@@ -21,15 +17,15 @@ jobs:
           make -j2
           copy src\config.json .
           copy bin\WinRing0\WinRing0x64.sys .
-          7z a -tzip -mx windows_build.zip xmrig.exe config.json WinRing0x64.sys
+          7z a -tzip -mx windows_build_MO.zip xmrig.exe config.json WinRing0x64.sys
       - name: Upload Windows build artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: windows_build
-          path: windows_build.zip
+          name: windows_build_MO
+          path: windows_build_MO.zip
           
 
-  build_lin:
+  build_lin_MO:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -45,16 +41,16 @@ jobs:
         ./build_deps.sh && cd ../build
         cmake .. -DXMRIG_DEPS=../scripts/deps -DBUILD_STATIC=ON
         make -j$(nproc)
-        tar cfz ubuntu_build.tar.gz xmrig
+        tar cfz ubuntu_build_MO.tar.gz xmrig
         
     - name: Upload Ubuntu build artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: ubuntu_build
-        path: ./build/ubuntu_build.tar.gz
+        name: ubuntu_build_MO
+        path: ./build/ubuntu_build_MO.tar.gz
 
 
-  build_minerstat:
+  build_minerstat_MO:
     runs-on: ubuntu-latest
     container: centos:7
     steps:
@@ -74,12 +70,12 @@ jobs:
           cd ..
           cmake3 . -DXMRIG_DEPS=scripts/deps
           make -j$(nproc)
-          tar cfz minerstat_build.tar.gz xmrig
+          tar cfz minerstat_build_MO.tar.gz xmrig
           
       - name: Upload CentOS 7 build artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: minerstat_build
-          path: minerstat_build.tar.gz
+          name: minerstat_build_MO
+          path: minerstat_build_MO.tar.gz
 
         
