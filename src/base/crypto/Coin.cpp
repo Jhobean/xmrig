@@ -64,7 +64,6 @@ const char *Coin::kDisabled = "DISABLED_COIN";
 const char *Coin::kField    = "coin";
 const char *Coin::kUnknown  = "UNKNOWN_COIN";
 
-
 } /* namespace xmrig */
 
 

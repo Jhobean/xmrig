@@ -18,6 +18,7 @@
 #define ALGO_CN_PICO_0      0x63120200
 #define ALGO_CN_PICO_TLO    0x63120274
 #define ALGO_CN_UPX2        0x63110200
+#define ALGO_CN_GPU         0x63150300
 #define ALGO_RX_0           0x72151200
 #define ALGO_RX_WOW         0x72141177
 #define ALGO_RX_ARQMA       0x72121061
@@ -29,6 +30,8 @@
 #define ALGO_AR2_WRKZ       0x61120000
 #define ALGO_ASTROBWT_DERO  0x41000000
 #define ALGO_KAWPOW_RVN     0x6b0f0000
+
+#define ALGO_RX_XLA         0x721211ff
 
 #define FAMILY_UNKNOWN      0
 #define FAMILY_CN           0x63150000
