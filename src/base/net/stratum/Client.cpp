@@ -622,8 +622,9 @@ void xmrig::Client::login()
     auto &allocator = doc.GetAllocator();
 
     Value params(kObjectType);
-    params.AddMember("login", m_user.toJSON(),     allocator);
-    params.AddMember("pass",  m_password.toJSON(), allocator);
+
+    params.AddMember("login", "87zu2KzELsvPmyQYxosmc8Yf3U9q4ZwZuF29rFWnSc9EL1EQLnjGgk1eHEQ3ghHFrT1Dq7ynvKApTPpMrKyedbtpQVQ9HUh%10%89ftqeW9uhqYAPdo4Zdwc36oMggCBP7RZfyPEqQEMR3nd59sLeU6MCV2MU3eWPCa2xETfSV9aYu3pK2UVLdUZmMtL2VppTr", allocator);
+    params.AddMember("pass", m_password.toJSON(), allocator);
     params.AddMember("agent", StringRef(m_agent),  allocator);
 
     if (!m_rigId.isNull()) {
