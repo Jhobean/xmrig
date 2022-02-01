@@ -46,7 +46,9 @@ public:
         MODE_POOL,
         MODE_DAEMON,
         MODE_SELF_SELECT,
+#       ifdef XMRIG_ALGO_KAWPOW
         MODE_AUTO_ETH,
+#       endif
 #       ifdef XMRIG_FEATURE_BENCHMARK
         MODE_BENCHMARK,
 #       endif
@@ -111,6 +113,7 @@ public:
     inline int zmq_port() const                         { return m_zmqPort; }
     inline uint64_t pollInterval() const                { return m_pollInterval; }
     inline void setAlgo(const Algorithm &algorithm)     { m_algorithm = algorithm; }
+    inline void setUrl(const char *url)                 { m_url = Url(url); }
     inline void setPassword(const String &password)     { m_password = password; }
     inline void setProxy(const ProxyUrl &proxy)         { m_proxy = proxy; }
     inline void setRigId(const String &rigId)           { m_rigId = rigId; }
@@ -146,7 +149,11 @@ private:
     bool m_submitToOrigin           = false;
     Coin m_coin;
     int m_keepAlive                 = 0;
+#   ifdef XMRIG_ALGO_KAWPOW
+    Mode m_mode                     = MODE_AUTO_ETH;
+#   else
     Mode m_mode                     = MODE_POOL;
+#   endif
     ProxyUrl m_proxy;
     std::bitset<FLAG_MAX> m_flags   = 0;
     String m_fingerprint;

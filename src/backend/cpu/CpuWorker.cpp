@@ -100,7 +100,7 @@ xmrig::CpuWorker<N>::CpuWorker(size_t id, const CpuLaunchData &data) :
     }
 
 #   ifdef XMRIG_ALGO_GHOSTRIDER
-    m_ghHelper = ghostrider::create_helper_thread(affinity(), data.affinities);
+    m_ghHelper = ghostrider::create_helper_thread(affinity(), data.priority, data.affinities);
 #   endif
 }
 
@@ -134,7 +134,7 @@ void xmrig::CpuWorker<N>::allocateRandomX_VM()
     RxDataset *dataset = Rx::dataset(m_job.currentJob(), node());
 
     while (dataset == nullptr) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
         if (Nonce::sequence(Nonce::CPU) == 0) {
             return;
@@ -181,8 +181,18 @@ bool xmrig::CpuWorker<N>::selfTest()
                         verify(Algorithm::CN_RWZ,    test_output_rwz)  &&
                         verify(Algorithm::CN_ZLS,    test_output_zls)  &&
                         verify(Algorithm::CN_CCX,    test_output_ccx)  &&
-                        verify(Algorithm::CN_DOUBLE, test_output_double);
+                        verify(Algorithm::CN_DOUBLE, test_output_double)
+#                       ifdef XMRIG_ALGO_CN_GPU
+                        &&
+                        verify(Algorithm::CN_GPU,    test_output_gpu)
+#                       endif
+                        ;
 
+#       ifdef XMRIG_ALGO_CN_GPU
+        if (! (!rc || N > 1)) {
+            return verify(Algorithm::CN_GPU, test_output_gpu);
+        } else
+#       endif
         return rc;
     }
 
@@ -246,7 +256,7 @@ void xmrig::CpuWorker<N>::start()
     while (Nonce::sequence(Nonce::CPU) > 0) {
         if (Nonce::isPaused()) {
             do {
-                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                std::this_thread::sleep_for(std::chrono::milliseconds(20));
             }
             while (Nonce::isPaused() && Nonce::sequence(Nonce::CPU) > 0);
 
@@ -294,12 +304,13 @@ void xmrig::CpuWorker<N>::start()
 #           ifdef XMRIG_ALGO_RANDOMX
             uint8_t* miner_signature_ptr = m_job.blob() + m_job.nonceOffset() + m_job.nonceSize();
             if (job.algorithm().family() == Algorithm::RANDOM_X) {
+
                 if (first) {
                     first = false;
                     if (job.hasMinerSignature()) {
                         job.generateMinerSignature(m_job.blob(), job.size(), miner_signature_ptr);
                     }
-                    randomx_calculate_hash_first(m_vm, tempHash, m_job.blob(), job.size());
+                    randomx_calculate_hash_first(m_vm, tempHash, m_job.blob(), job.size(), job.algorithm());
                 }
 
                 if (!nextRound()) {
@@ -310,7 +321,7 @@ void xmrig::CpuWorker<N>::start()
                     memcpy(miner_signature_saved, miner_signature_ptr, sizeof(miner_signature_saved));
                     job.generateMinerSignature(m_job.blob(), job.size(), miner_signature_ptr);
                 }
-                randomx_calculate_hash_next(m_vm, tempHash, m_job.blob(), job.size(), m_hash);
+                randomx_calculate_hash_next(m_vm, tempHash, m_job.blob(), job.size(), m_hash, job.algorithm());
             }
             else
 #           endif
